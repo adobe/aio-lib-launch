@@ -16,22 +16,22 @@ const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, '.env') })
 
 let sdkClient = {}
-const tenantId = process.env.EXPERIENCE_LAUNCH_TENANT_ID
+const imsOrgId = process.env.EXPERIENCE_LAUNCH_IMS_ORG_ID
 const apiKey = process.env.EXPERIENCE_LAUNCH_API_KEY
 const accessToken = process.env.EXPERIENCE_LAUNCH_ACCESS_TOKEN
 
 beforeAll(async () => {
-  sdkClient = await sdk.init(tenantId, apiKey, accessToken)
+  sdkClient = await sdk.init(imsOrgId, apiKey, accessToken)
 })
 
 test('sdk init test', async () => {
-  expect(sdkClient.tenantId).toBe(tenantId)
+  expect(sdkClient.imsOrgId).toBe(imsOrgId)
   expect(sdkClient.apiKey).toBe(apiKey)
   expect(sdkClient.accessToken).toBe(accessToken)
 })
 
 test('test bad access token', async () => {
-  const _sdkClient = await sdk.init(tenantId, apiKey, 'bad_access_token')
+  const _sdkClient = await sdk.init(imsOrgId, apiKey, 'bad_access_token')
   const promise = _sdkClient.getSomething()
 
   // just match the error message
@@ -39,7 +39,7 @@ test('test bad access token', async () => {
 })
 
 test('test bad api key', async () => {
-  const _sdkClient = await sdk.init(tenantId, 'bad_api_key', accessToken)
+  const _sdkClient = await sdk.init(imsOrgId, 'bad_api_key', accessToken)
   const promise = _sdkClient.getSomething()
 
   // just match the error message

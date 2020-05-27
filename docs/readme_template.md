@@ -34,7 +34,7 @@ const sdk = require('@adobe/aio-lib-launch')
 
 async function sdkTest() {
   //initialize sdk
-  const client = await sdk.init('<tenant>', 'x-api-key', '<valid auth token>')
+  const client = await sdk.init('<ims org id>', 'x-api-key', '<valid auth token>')
 }
 ```
 
@@ -45,12 +45,12 @@ const sdk = require('@adobe/aio-lib-launch')
 
 async function sdkTest() {
   // initialize sdk
-  const client = await sdk.init('<tenant>', 'x-api-key', '<valid auth token>')
+  const client = await sdk.init('<ims org id>', 'x-api-key', '<valid auth token>')
 
   // call methods
   try {
     // get... something
-    const result = await client.getSomething({})
+    const result = await client.getEnvironment('my-environment-id')
     console.log(result)
 
   } catch (e) {

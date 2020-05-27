@@ -3,9 +3,9 @@
 ## Requirements
 
 To run the e2e test you'll need these env variables set:
-  1. `ExperienceLaunch_TENANT_ID`
-  2. `ExperienceLaunch_API_KEY`
-  3. `ExperienceLaunch_ACCESS_TOKEN`
+  1. `EXPERIENCE_LAUNCH_IMS_ORG_ID`
+  2. `EXPERIENCE_LAUNCH_API_KEY`
+  3. `EXPERIENCE_LAUNCH_ACCESS_TOKEN`
 
 ## Run
 
@@ -15,5 +15,5 @@ To run the e2e test you'll need these env variables set:
 
 The tests cover:
 
-1. Malformed tenant id, api key or access token
+1. Malformed ims org id, api key or access token
 2. `read` APIs

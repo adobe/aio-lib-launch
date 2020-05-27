@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://my-server.com/"
+      "url": "https://reactor.adobe.io/"
     }
   ],
   "components": {
@@ -23,6 +23,11 @@
         "type": "apiKey",
         "in": "header",
         "name": "X-Api-Key"
+      },
+      "ImsOrgId": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Gw-Ims-Org-Id"
       }
     },
     "parameters": {
@@ -41,8 +46,17 @@
         "required": false,
         "schema": {
           "type": "string",
-          "default": "application/json;charset=utf-8"
+          "default": "application/vnd.api+json"
         }
+      },
+      "Accept": {
+          "in": "header",
+          "name": "Accept",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "default": "application/vnd.api+json;revision=1"
+          }
       }
     }
   },
@@ -52,22 +66,35 @@
     },
     {
       "BearerAuth": []
+    },
+    {
+      "ImsOrgId": []
     }
   ],
   "paths": {
-    "/something": {
+    "/environments/{ID}": {
       "parameters": [
         {
-          "$ref": "#/components/parameters/Cache-Control"
+          "$ref": "#/components/parameters/Content-Type"
         },
         {
-          "$ref": "#/components/parameters/Content-Type"
+          "$ref": "#/components/parameters/Accept"
         }
       ],
       "get": {
-        "summary": "Get something",
-        "operationId": "getSomething",
-        "tags": ["mytag"],
+        "summary": "Get an Environment by Id",
+        "operationId": "getEnvironment",
+        "tags": ["environments"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],        
         "responses": {
           "default": {
             "description": ""

@@ -16,7 +16,7 @@ const { codes } = require('../src/SDKErrors')
 
 // /////////////////////////////////////////////
 
-const gTenantId = 'test-company'
+const gImsOrgId = 'test-ims-org'
 const gApiKey = 'test-apikey'
 const gAccessToken = 'test-token'
 
@@ -24,7 +24,7 @@ const gAccessToken = 'test-token'
 
 const createSwaggerOptions = ({ body } = {}) => {
   return createRequestOptions({
-    tenantId: gTenantId,
+    imsOrgId: gImsOrgId,
     apiKey: gApiKey,
     accessToken: gAccessToken,
     body
@@ -32,7 +32,7 @@ const createSwaggerOptions = ({ body } = {}) => {
 }
 
 const createSdkClient = async () => {
-  return sdk.init(gTenantId, gApiKey, gAccessToken)
+  return sdk.init(gImsOrgId, gApiKey, gAccessToken)
 }
 
 // /////////////////////////////////////////////
@@ -44,25 +44,25 @@ beforeEach(() => {
 test('sdk init test', async () => {
   const sdkClient = await createSdkClient()
 
-  expect(sdkClient.tenantId).toBe(gTenantId)
+  expect(sdkClient.imsOrgId).toBe(gImsOrgId)
   expect(sdkClient.apiKey).toBe(gApiKey)
   expect(sdkClient.accessToken).toBe(gAccessToken)
 })
 
-test('sdk init test - no tenantId', async () => {
+test('sdk init test - no imsOrgId', async () => {
   return expect(sdk.init(null, gApiKey, gAccessToken)).rejects.toEqual(
-    new codes.ERROR_SDK_INITIALIZATION({ messageValues: 'tenantId' })
+    new codes.ERROR_SDK_INITIALIZATION({ messageValues: 'imsOrgId' })
   )
 })
 
 test('sdk init test - no apiKey', async () => {
-  return expect(sdk.init(gTenantId, null, gAccessToken)).rejects.toEqual(
+  return expect(sdk.init(gImsOrgId, null, gAccessToken)).rejects.toEqual(
     new codes.ERROR_SDK_INITIALIZATION({ messageValues: 'apiKey' })
   )
 })
 
 test('sdk init test - no accessToken', async () => {
-  return expect(sdk.init(gTenantId, gApiKey, null)).rejects.toEqual(
+  return expect(sdk.init(gImsOrgId, gApiKey, null)).rejects.toEqual(
     new codes.ERROR_SDK_INITIALIZATION({ messageValues: 'accessToken' })
   )
 })
@@ -104,16 +104,17 @@ async function standardTest ({
   expect(mockFn).toHaveBeenCalledWith(apiParameters, apiOptions)
 }
 
-test('getSomething', async () => {
-  const sdkArgs = []
-  const apiParameters = {}
+test('getEnviroment', async () => {
+  const id = 'my-id'
+  const sdkArgs = [id]
+  const apiParameters = { ID: id }
   const apiOptions = createSwaggerOptions()
 
   return expect(() => standardTest({
-    fullyQualifiedApiName: 'mytag.getSomething',
+    fullyQualifiedApiName: 'environments.getEnvironment',
     apiParameters,
     apiOptions,
     sdkArgs,
-    ErrorClass: codes.ERROR_GET_SOMETHING
+    ErrorClass: codes.ERROR_GET_ENVIRONMENT
   })).not.toThrow()
 })
