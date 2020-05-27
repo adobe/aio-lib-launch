@@ -16,21 +16,21 @@ const { reduceError, requestInterceptor, responseInterceptor, createRequestOptio
 const { codes } = require('./SDKErrors')
 
 require('./types.jsdoc') // for VS Code autocomplete
-/* global MyParameters, Response */ // for linter
+/* global Response */ // for linter
 
 /**
- * Returns a Promise that resolves with a new ExperienceLaunch object.
+ * Returns a Promise that resolves with a new ExperienceLaunchAPI object.
  *
- * @param {string} tenantId the tenant id
+ * @param {string} imsOrgId the IMS Org Id
  * @param {string} apiKey the API key for your integration
  * @param {string} accessToken the access token for your integration
- * @returns {Promise<ExperienceLaunch>} a Promise with a ExperienceLaunch object
+ * @returns {Promise<ExperienceLaunchAPI>} a Promise with a ExperienceLaunchAPI object
  */
-function init (tenantId, apiKey, accessToken) {
+function init (imsOrgId, apiKey, accessToken) {
   return new Promise((resolve, reject) => {
-    const clientWrapper = new ExperienceLaunch()
+    const clientWrapper = new ExperienceLaunchAPI()
 
-    clientWrapper.init(tenantId, apiKey, accessToken)
+    clientWrapper.init(imsOrgId, apiKey, accessToken)
       .then(initializedSDK => {
         logger.debug('sdk initialized successfully')
         resolve(initializedSDK)
@@ -43,20 +43,20 @@ function init (tenantId, apiKey, accessToken) {
 }
 
 /**
- * This class provides methods to call your ExperienceLaunch APIs.
+ * This class provides methods to call your ExperienceLaunchAPI APIs.
  * Before calling any method initialize the instance by calling the `init` method on it
- * with valid values for tenantId, apiKey and accessToken
+ * with valid values for imsOrgId, apiKey and accessToken
  */
-class ExperienceLaunch {
+class ExperienceLaunchAPI {
   /**
-   * Initializes a ExperienceLaunch object and returns it.
+   * Initializes a ExperienceLaunchAPI object and returns it.
    *
-   * @param {string} tenantId the tenant id
+   * @param {string} imsOrgId the IMS Org Id
    * @param {string} apiKey the API key for your integration
    * @param {string} accessToken the access token for your integration
-   * @returns {Promise<ExperienceLaunch>} a ExperienceLaunch object
+   * @returns {Promise<ExperienceLaunchAPI>} a ExperienceLaunchAPI object
    */
-  async init (tenantId, apiKey, accessToken) {
+  async init (imsOrgId, apiKey, accessToken) {
     // init swagger client
     const spec = require('../spec/api.json')
     const swagger = new Swagger({
@@ -68,8 +68,8 @@ class ExperienceLaunch {
     this.sdk = (await swagger)
 
     const initErrors = []
-    if (!tenantId) {
-      initErrors.push('tenantId')
+    if (!imsOrgId) {
+      initErrors.push('imsOrgId')
     }
     if (!apiKey) {
       initErrors.push('apiKey')
@@ -79,16 +79,16 @@ class ExperienceLaunch {
     }
 
     if (initErrors.length) {
-      const sdkDetails = { tenantId, apiKey, accessToken }
+      const sdkDetails = { imsOrgId, apiKey, accessToken }
       throw new codes.ERROR_SDK_INITIALIZATION({ sdkDetails, messageValues: `${initErrors.join(', ')}` })
     }
 
     /**
-     * The tenant id
+     * The IMS Org Id
      *
      * @type {string}
      */
-    this.tenantId = tenantId
+    this.imsOrgId = imsOrgId
 
     /**
      * The api key from your integration
@@ -109,7 +109,7 @@ class ExperienceLaunch {
 
   __createRequestOptions ({ body } = {}) {
     return createRequestOptions({
-      tenantId: this.tenantId,
+      imsOrgId: this.imsOrgId,
       apiKey: this.apiKey,
       accessToken: this.accessToken,
       body
@@ -117,25 +117,26 @@ class ExperienceLaunch {
   }
 
   /**
-   * Get something.
+   * Get an Environment by Id.
    *
-   * @param {MyParameters} [parameters={}] parameters to pass
+   * @param {string} id the environment id
    * @returns {Promise<Response>} the response
    */
-  getSomething (parameters = {}) {
-    const sdkDetails = { parameters }
+  getEnvironment (id) {
+    const sdkDetails = { id }
 
     return new Promise((resolve, reject) => {
-      this.sdk.apis.mytag.getSomething(parameters, this.__createRequestOptions())
+      this.sdk.apis.environments.getEnvironment({ ID: id }, this.__createRequestOptions())
         .then(response => {
           resolve(response)
         })
         .catch(err => {
-          reject(new codes.ERROR_GET_SOMETHING({ sdkDetails, messageValues: reduceError(err) }))
+          reject(new codes.ERROR_GET_ENVIRONMENT({ sdkDetails, messageValues: reduceError(err) }))
         })
     })
   }
 }
+
 module.exports = {
   init: init
 }

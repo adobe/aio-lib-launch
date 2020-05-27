@@ -38,12 +38,12 @@ test('reduceError', () => {
 })
 
 test('createRequestOptions', () => {
-  const tenantId = 'my-tenant'
+  const imsOrgId = 'my-ims-org'
   const apiKey = 'my-api-key'
   const accessToken = 'my-token'
 
   const options = createRequestOptions({
-    tenantId,
+    imsOrgId,
     apiKey,
     accessToken
   })
@@ -53,7 +53,8 @@ test('createRequestOptions', () => {
     securities: {
       authorized: {
         BearerAuth: { value: accessToken },
-        ApiKeyAuth: { value: apiKey }
+        ApiKeyAuth: { value: apiKey },
+        ImsOrgId: { value: imsOrgId }
       }
     }
   })

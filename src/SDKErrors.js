@@ -49,4 +49,4 @@ module.exports = {
 
 // Define your error codes with the wrapper
 E('ERROR_SDK_INITIALIZATION', 'SDK initialization error(s). Missing arguments: %s')
-E('ERROR_GET_SOMETHING', 'Something went wrong.')
+E('ERROR_GET_ENVIRONMENT', 'Something went wrong.')

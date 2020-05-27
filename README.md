@@ -34,7 +34,7 @@ const sdk = require('@adobe/aio-lib-launch')
 
 async function sdkTest() {
   //initialize sdk
-  const client = await sdk.init('<tenant>', 'x-api-key', '<valid auth token>')
+  const client = await sdk.init('<ims org id>', 'x-api-key', '<valid auth token>')
 }
 ```
 
@@ -45,12 +45,12 @@ const sdk = require('@adobe/aio-lib-launch')
 
 async function sdkTest() {
   // initialize sdk
-  const client = await sdk.init('<tenant>', 'x-api-key', '<valid auth token>')
+  const client = await sdk.init('<ims org id>', 'x-api-key', '<valid auth token>')
 
   // call methods
   try {
     // get... something
-    const result = await client.getSomething({})
+    const result = await client.getEnvironment('my-environment-id')
     console.log(result)
 
   } catch (e) {
@@ -62,28 +62,18 @@ async function sdkTest() {
 ## Classes
 
 <dl>
-<dt><a href="#ExperienceLaunch">ExperienceLaunch</a></dt>
-<dd><p>This class provides methods to call your ExperienceLaunch APIs.
+<dt><a href="#ExperienceLaunchAPI">ExperienceLaunchAPI</a></dt>
+<dd><p>This class provides methods to call your ExperienceLaunchAPI APIs.
 Before calling any method initialize the instance by calling the <code>init</code> method on it
-with valid values for tenantId, apiKey and accessToken</p>
+with valid values for imsOrgId, apiKey and accessToken</p>
 </dd>
 </dl>
 
 ## Functions
 
 <dl>
-<dt><a href="#responseBodyToString">responseBodyToString(response)</a> ⇒ <code>Promise.&lt;string&gt;</code></dt>
-<dd><p>Converts a fetch Response object&#39;s body contents to a string.</p>
-</dd>
-<dt><a href="#filterUndefinedOrNull">filterUndefinedOrNull(json)</a> ⇒ <code>object</code></dt>
-<dd><p>Filters a json object, removing any undefined or null entries.
-Returns a new object (does not mutate original)</p>
-</dd>
-<dt><a href="#requestToString">requestToString(request)</a> ⇒ <code>object</code></dt>
-<dd><p>Converts a fetch Request object to a string.</p>
-</dd>
-<dt><a href="#init">init(tenantId, apiKey, accessToken)</a> ⇒ <code><a href="#ExperienceLaunch">Promise.&lt;ExperienceLaunch&gt;</a></code></dt>
-<dd><p>Returns a Promise that resolves with a new ExperienceLaunch object.</p>
+<dt><a href="#init">init(imsOrgId, apiKey, accessToken)</a> ⇒ <code><a href="#ExperienceLaunchAPI">Promise.&lt;ExperienceLaunchAPI&gt;</a></code></dt>
+<dd><p>Returns a Promise that resolves with a new ExperienceLaunchAPI object.</p>
 </dd>
 </dl>
 
@@ -98,114 +88,77 @@ Returns a new object (does not mutate original)</p>
 </dd>
 </dl>
 
-<a name="ExperienceLaunch"></a>
+<a name="ExperienceLaunchAPI"></a>
 
-## ExperienceLaunch
-This class provides methods to call your ExperienceLaunch APIs.
+## ExperienceLaunchAPI
+This class provides methods to call your ExperienceLaunchAPI APIs.
 Before calling any method initialize the instance by calling the `init` method on it
-with valid values for tenantId, apiKey and accessToken
+with valid values for imsOrgId, apiKey and accessToken
 
 **Kind**: global class  
 
-* [ExperienceLaunch](#ExperienceLaunch)
-    * [.tenantId](#ExperienceLaunch+tenantId) : <code>string</code>
-    * [.apiKey](#ExperienceLaunch+apiKey) : <code>string</code>
-    * [.accessToken](#ExperienceLaunch+accessToken) : <code>string</code>
-    * [.init(tenantId, apiKey, accessToken)](#ExperienceLaunch+init) ⇒ [<code>Promise.&lt;ExperienceLaunch&gt;</code>](#ExperienceLaunch)
-    * [.getSomething([parameters])](#ExperienceLaunch+getSomething) ⇒ <code>Promise.&lt;Response&gt;</code>
+* [ExperienceLaunchAPI](#ExperienceLaunchAPI)
+    * [.imsOrgId](#ExperienceLaunchAPI+imsOrgId) : <code>string</code>
+    * [.apiKey](#ExperienceLaunchAPI+apiKey) : <code>string</code>
+    * [.accessToken](#ExperienceLaunchAPI+accessToken) : <code>string</code>
+    * [.init(imsOrgId, apiKey, accessToken)](#ExperienceLaunchAPI+init) ⇒ [<code>Promise.&lt;ExperienceLaunchAPI&gt;</code>](#ExperienceLaunchAPI)
+    * [.getEnvironment(id)](#ExperienceLaunchAPI+getEnvironment) ⇒ <code>Promise.&lt;Response&gt;</code>
 
-<a name="ExperienceLaunch+tenantId"></a>
+<a name="ExperienceLaunchAPI+imsOrgId"></a>
 
-### experienceLaunch.tenantId : <code>string</code>
-The tenant id
+### experienceLaunchAPI.imsOrgId : <code>string</code>
+The IMS Org Id
 
-**Kind**: instance property of [<code>ExperienceLaunch</code>](#ExperienceLaunch)  
-<a name="ExperienceLaunch+apiKey"></a>
+**Kind**: instance property of [<code>ExperienceLaunchAPI</code>](#ExperienceLaunchAPI)  
+<a name="ExperienceLaunchAPI+apiKey"></a>
 
-### experienceLaunch.apiKey : <code>string</code>
+### experienceLaunchAPI.apiKey : <code>string</code>
 The api key from your integration
 
-**Kind**: instance property of [<code>ExperienceLaunch</code>](#ExperienceLaunch)  
-<a name="ExperienceLaunch+accessToken"></a>
+**Kind**: instance property of [<code>ExperienceLaunchAPI</code>](#ExperienceLaunchAPI)  
+<a name="ExperienceLaunchAPI+accessToken"></a>
 
-### experienceLaunch.accessToken : <code>string</code>
+### experienceLaunchAPI.accessToken : <code>string</code>
 The access token from your integration
 
-**Kind**: instance property of [<code>ExperienceLaunch</code>](#ExperienceLaunch)  
-<a name="ExperienceLaunch+init"></a>
+**Kind**: instance property of [<code>ExperienceLaunchAPI</code>](#ExperienceLaunchAPI)  
+<a name="ExperienceLaunchAPI+init"></a>
 
-### experienceLaunch.init(tenantId, apiKey, accessToken) ⇒ [<code>Promise.&lt;ExperienceLaunch&gt;</code>](#ExperienceLaunch)
-Initializes a ExperienceLaunch object and returns it.
+### experienceLaunchAPI.init(imsOrgId, apiKey, accessToken) ⇒ [<code>Promise.&lt;ExperienceLaunchAPI&gt;</code>](#ExperienceLaunchAPI)
+Initializes a ExperienceLaunchAPI object and returns it.
 
-**Kind**: instance method of [<code>ExperienceLaunch</code>](#ExperienceLaunch)  
-**Returns**: [<code>Promise.&lt;ExperienceLaunch&gt;</code>](#ExperienceLaunch) - a ExperienceLaunch object  
+**Kind**: instance method of [<code>ExperienceLaunchAPI</code>](#ExperienceLaunchAPI)  
+**Returns**: [<code>Promise.&lt;ExperienceLaunchAPI&gt;</code>](#ExperienceLaunchAPI) - a ExperienceLaunchAPI object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| tenantId | <code>string</code> | the tenant id |
+| imsOrgId | <code>string</code> | the IMS Org Id |
 | apiKey | <code>string</code> | the API key for your integration |
 | accessToken | <code>string</code> | the access token for your integration |
 
-<a name="ExperienceLaunch+getSomething"></a>
+<a name="ExperienceLaunchAPI+getEnvironment"></a>
 
-### experienceLaunch.getSomething([parameters]) ⇒ <code>Promise.&lt;Response&gt;</code>
-Get something.
+### experienceLaunchAPI.getEnvironment(id) ⇒ <code>Promise.&lt;Response&gt;</code>
+Get an Environment by Id.
 
-**Kind**: instance method of [<code>ExperienceLaunch</code>](#ExperienceLaunch)  
+**Kind**: instance method of [<code>ExperienceLaunchAPI</code>](#ExperienceLaunchAPI)  
 **Returns**: <code>Promise.&lt;Response&gt;</code> - the response  
 
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [parameters] | [<code>MyParameters</code>](#MyParameters) | <code>{}</code> | parameters to pass |
-
-<a name="responseBodyToString"></a>
-
-## responseBodyToString(response) ⇒ <code>Promise.&lt;string&gt;</code>
-Converts a fetch Response object's body contents to a string.
-
-**Kind**: global function  
-**Returns**: <code>Promise.&lt;string&gt;</code> - a Promise that resolves to the converted object's body contents  
-
 | Param | Type | Description |
 | --- | --- | --- |
-| response | <code>Response</code> | the response object |
-
-<a name="filterUndefinedOrNull"></a>
-
-## filterUndefinedOrNull(json) ⇒ <code>object</code>
-Filters a json object, removing any undefined or null entries.
-Returns a new object (does not mutate original)
-
-**Kind**: global function  
-**Returns**: <code>object</code> - the filtered object (a new object)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| json | <code>object</code> | the json object to filter |
-
-<a name="requestToString"></a>
-
-## requestToString(request) ⇒ <code>object</code>
-Converts a fetch Request object to a string.
-
-**Kind**: global function  
-**Returns**: <code>object</code> - the converted object  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| request | <code>Request</code> | the request object |
+| id | <code>string</code> | the environment id |
 
 <a name="init"></a>
 
-## init(tenantId, apiKey, accessToken) ⇒ [<code>Promise.&lt;ExperienceLaunch&gt;</code>](#ExperienceLaunch)
-Returns a Promise that resolves with a new ExperienceLaunch object.
+## init(imsOrgId, apiKey, accessToken) ⇒ [<code>Promise.&lt;ExperienceLaunchAPI&gt;</code>](#ExperienceLaunchAPI)
+Returns a Promise that resolves with a new ExperienceLaunchAPI object.
 
 **Kind**: global function  
-**Returns**: [<code>Promise.&lt;ExperienceLaunch&gt;</code>](#ExperienceLaunch) - a Promise with a ExperienceLaunch object  
+**Returns**: [<code>Promise.&lt;ExperienceLaunchAPI&gt;</code>](#ExperienceLaunchAPI) - a Promise with a ExperienceLaunchAPI object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| tenantId | <code>string</code> | the tenant id |
+| imsOrgId | <code>string</code> | the IMS Org Id |
 | apiKey | <code>string</code> | the API key for your integration |
 | accessToken | <code>string</code> | the access token for your integration |
 
